@@ -6,8 +6,10 @@ A team project focused on optimizing optical fibre routes using **graph algorith
 
 ## 👥 Team Members
 
-- **Shaurya-28** (Project Lead / Developer)
-- **[Add your teammates’ GitHub usernames here]**
+- Shaurya Anand
+- Arshita Garg
+- Divya Pratap Singh
+- Divya Garg
 
 ---
 
