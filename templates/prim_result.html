@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prim's MST Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        #map { height: 400px; }
+        .source-icon {
+            background-color: #22c55e;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="p-6 text-center">
+        <h1 class="text-2xl font-bold text-green-700 mb-4">🌿 Prim's Minimum Spanning Tree</h1>
+
+        <div class="max-w-md mx-auto bg-white shadow-md rounded p-4 mb-6">
+            <h2 class="text-xl font-semibold text-green-600 mb-4">MST Edges</h2>
+            <ul class="space-y-2">
+                {% for frm, to, wt in mst %}
+                    <li class="flex justify-between">
+                        <span>{{ frm }} → {{ to }}</span>
+                        <span>{{ wt }} km</span>
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr class="my-4">
+            <p class="font-bold text-lg">Total Weight: {{ total_weight }} km</p>
+        </div>
+
+        <div class="max-w-md mx-auto bg-white shadow-md rounded p-4 mb-6">
+            <h2 class="text-xl font-semibold text-green-600 mb-4">Paths from {{ source }}</h2>
+            <ul class="space-y-2">
+                {% for dest, path in paths.items() %}
+                    {% if dest != source %}
+                        <li class="text-left">
+                            <span class="font-medium">{{ dest }}:</span>
+                            <span class="text-gray-600">{{ ' → '.join(path) }}</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="map" class="max-w-2xl mx-auto mb-6 rounded shadow-lg"></div>
+
+        <div class="mt-6">
+            <a href="/" class="text-blue-600 hover:underline">← Back</a>
+        </div>
+    </div>
+
+    <script>
+        // Initialize map
+        const map = L.map('map').setView([30.3165, 78.0322], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add markers and edges
+        const locationData = {{ location_data | tojson }};
+        const distanceData = {{ distance_data | tojson }};
+        const mst = {{ mst | tojson }};
+        const paths = {{ paths | tojson }};
+        const source = "{{ source }}";
+
+        // Add markers for all locations
+        Object.entries(locationData).forEach(([place, coords]) => {
+            let marker;
+            if (place === source) {
+                // Source marker (green circle)
+                marker = L.circleMarker([coords.lat, coords.lng], {
+                    radius: 8,
+                    fillColor: '#22c55e',
+                    color: '#ffffff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+            } else {
+                // Destination markers (red pin)
+                marker = L.marker([coords.lat, coords.lng], {
+                    icon: L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div style="background-color: #ef4444; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white;"></div>`,
+                        iconSize: [12, 12],
+                        iconAnchor: [6, 6]
+                    })
+                });
+            }
+
+            // Add permanent label for the locality
+            L.marker([coords.lat, coords.lng], {
+                icon: L.divIcon({
+                    className: 'locality-label',
+                    html: `<div style="background-color: white; padding: 2px 6px; border-radius: 4px; border: 1px solid #666; font-size: 12px; white-space: nowrap;">${place}</div>`,
+                    iconSize: [100, 20],
+                    iconAnchor: [50, 20]
+                })
+            }).addTo(map);
+
+            marker.bindPopup(`
+                <div class="text-center">
+                    <strong>${place}</strong><br>
+                    <small>Lat: ${coords.lat.toFixed(4)}</small><br>
+                    <small>Lng: ${coords.lng.toFixed(4)}</small>
+                </div>
+            `).addTo(map);
+        });
+
+        // Add MST edges with straight lines
+        mst.forEach(([from, to, weight]) => {
+            const fromCoords = locationData[from];
+            const toCoords = locationData[to];
+            
+            // Create straight line
+            L.polyline([
+                [fromCoords.lat, fromCoords.lng],
+                [toCoords.lat, toCoords.lng]
+            ], {
+                color: '#22c55e',  // Green-600
+                weight: 4,
+                opacity: 0.8
+            }).bindPopup(`
+                <div class="text-center">
+                    <strong>${from} → ${to}</strong><br>
+                    <span class="text-green-600">${weight} km</span>
+                </div>
+            `).addTo(map);
+
+            // Add distance label at midpoint
+            const midLat = (fromCoords.lat + toCoords.lat) / 2;
+            const midLng = (fromCoords.lng + toCoords.lng) / 2;
+            
+            L.marker([midLat, midLng], {
+                icon: L.divIcon({
+                    className: 'distance-label',
+                    html: `<div style="background-color: white; padding: 2px 6px; border-radius: 4px; border: 1px solid #22c55e; font-size: 12px;">${weight} km</div>`,
+                    iconSize: [60, 20],
+                    iconAnchor: [30, 10]
+                })
+            }).addTo(map);
+        });
+
+        // Add path lines with dashed style
+        Object.entries(paths).forEach(([dest, path]) => {
+            if (path.length > 1) {
+                const coordinates = path.map(place => [
+                    locationData[place].lat,
+                    locationData[place].lng
+                ]);
+                
+                // Calculate total distance for this path
+                let totalDistance = 0;
+                for (let i = 0; i < path.length - 1; i++) {
+                    const from = path[i];
+                    const to = path[i + 1];
+                    if (distanceData[`${from},${to}`]) {
+                        totalDistance += distanceData[`${from},${to}`];
+                    }
+                }
+
+                // Create the path line
+                L.polyline(coordinates, {
+                    color: '#3b82f6',  // Blue-500
+                    weight: 2,
+                    opacity: 0.7,
+                    dashArray: '5, 10'
+                }).bindPopup(`
+                    <div class="text-center">
+                        <strong>Path to ${dest}</strong><br>
+                        <span class="text-blue-500">${path.join(' → ')}</span><br>
+                        <span class="text-gray-600">Total Distance: ${totalDistance.toFixed(1)} km</span>
+                    </div>
+                `).addTo(map);
+            }
+        });
+
+        // Fit map bounds to show all markers with padding
+        const bounds = Object.values(locationData).map(coords => [coords.lat, coords.lng]);
+        map.fitBounds(bounds, { padding: [50, 50] });
+    </script>
+</body>
+</html>

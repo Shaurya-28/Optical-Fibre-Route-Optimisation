@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a7b677fd3a4506eb87d8317f6a5b3dfd {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a7b677fd3a4506eb87d8317f6a5b3dfd" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a7b677fd3a4506eb87d8317f6a5b3dfd = L.map(
+                "map_a7b677fd3a4506eb87d8317f6a5b3dfd",
+                {
+                    center: [30.3165, 78.0322],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_1bdd93e5569ca3776dced7cd855d9f4f = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_1bdd93e5569ca3776dced7cd855d9f4f.addTo(map_a7b677fd3a4506eb87d8317f6a5b3dfd);
+        
+    
+            var marker_d475492e8e4bb247c53c159db3665e2a = L.marker(
+                [30.3165, 78.0322],
+                {
+}
+            ).addTo(map_a7b677fd3a4506eb87d8317f6a5b3dfd);
+        
+    
+        var popup_dca583a6cb697742c58749c0c50c4eaf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c422be44241ccf85c670bf9a3c5fc60e = $(`<div id="html_c422be44241ccf85c670bf9a3c5fc60e" style="width: 100.0%; height: 100.0%;">Dehradun</div>`)[0];
+                popup_dca583a6cb697742c58749c0c50c4eaf.setContent(html_c422be44241ccf85c670bf9a3c5fc60e);
+            
+        
+
+        marker_d475492e8e4bb247c53c159db3665e2a.bindPopup(popup_dca583a6cb697742c58749c0c50c4eaf)
+        ;
+
+        
+    
+    
+            var marker_7ba2e95c26f81e1ebf90cbbf15a4ccfb = L.marker(
+                [30.0869, 78.2676],
+                {
+}
+            ).addTo(map_a7b677fd3a4506eb87d8317f6a5b3dfd);
+        
+    
+        var popup_c34a9932bd481354d9d7fe795ad2dc1c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fca80a833a0d56d6c8b6e4e33f5dee6c = $(`<div id="html_fca80a833a0d56d6c8b6e4e33f5dee6c" style="width: 100.0%; height: 100.0%;">Rishikesh</div>`)[0];
+                popup_c34a9932bd481354d9d7fe795ad2dc1c.setContent(html_fca80a833a0d56d6c8b6e4e33f5dee6c);
+            
+        
+
+        marker_7ba2e95c26f81e1ebf90cbbf15a4ccfb.bindPopup(popup_c34a9932bd481354d9d7fe795ad2dc1c)
+        ;
+
+        
+    
+    
+            var marker_fe1c57b74c9ac99dbd77c39b344566c6 = L.marker(
+                [29.9457, 78.1642],
+                {
+}
+            ).addTo(map_a7b677fd3a4506eb87d8317f6a5b3dfd);
+        
+    
+        var popup_618392cfae5eabd262d61e8e8826e6be = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8fdd320ec739db1700a7dc26c86dc546 = $(`<div id="html_8fdd320ec739db1700a7dc26c86dc546" style="width: 100.0%; height: 100.0%;">Haridwar</div>`)[0];
+                popup_618392cfae5eabd262d61e8e8826e6be.setContent(html_8fdd320ec739db1700a7dc26c86dc546);
+            
+        
+
+        marker_fe1c57b74c9ac99dbd77c39b344566c6.bindPopup(popup_618392cfae5eabd262d61e8e8826e6be)
+        ;
+
+        
+    
+    
+            var marker_38899fa6c1b514679ec099b3d11d22e3 = L.marker(
+                [30.4583, 78.07],
+                {
+}
+            ).addTo(map_a7b677fd3a4506eb87d8317f6a5b3dfd);
+        
+    
+        var popup_377a3c2e064fe62a0fe688fa6f834f8e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8fe9867d4772ab41d49dc390a89c0b18 = $(`<div id="html_8fe9867d4772ab41d49dc390a89c0b18" style="width: 100.0%; height: 100.0%;">Mussoorie</div>`)[0];
+                popup_377a3c2e064fe62a0fe688fa6f834f8e.setContent(html_8fe9867d4772ab41d49dc390a89c0b18);
+            
+        
+
+        marker_38899fa6c1b514679ec099b3d11d22e3.bindPopup(popup_377a3c2e064fe62a0fe688fa6f834f8e)
+        ;
+
+        
+    
+</script>
+</html>
